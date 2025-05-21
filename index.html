@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Townsville Copper-Gold 3D Map</title>
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Cesium.js"></script>
+  <script src="drill_traces.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
   <style>
     html, body, #cesiumContainer {
@@ -30,6 +32,10 @@
         animation: false
       });
 
+      // Allow camera to go below ground
+      viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
+
+      // Load GeoJSON overlay (optional)
       Cesium.GeoJsonDataSource.load('townsville_plot.geojson', {
         stroke: Cesium.Color.YELLOW,
         fill: Cesium.Color.YELLOW.withAlpha(0.5),
@@ -37,8 +43,13 @@
       }).then((dataSource) => {
         viewer.dataSources.add(dataSource);
         viewer.flyTo(dataSource);
-      }).otherwise((error) => {
-        console.error("Failed to load GeoJSON:", error);
+      }).catch((error) => {
+        console.error("🚨 Failed to load GeoJSON:", error);
+      });
+
+      // Load drill traces
+      drillTraces.forEach((trace) => {
+        viewer.entities.add(trace);
       });
     }
 
