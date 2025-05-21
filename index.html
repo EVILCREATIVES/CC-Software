@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,11 @@
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
   <style>
     html, body, #cesiumContainer {
-      width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
       font-family: sans-serif;
     }
   </style>
@@ -16,14 +19,14 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-    // Initialize Cesium Viewer
+    // ✅ Use EllipsoidTerrain to avoid needing token
     const viewer = new Cesium.Viewer('cesiumContainer', {
-      terrainProvider: Cesium.createWorldTerrain(),
+      terrainProvider: new Cesium.EllipsoidTerrainProvider(),
       timeline: false,
       animation: false
     });
 
-    // Load GeoJSON data
+    // Load GeoJSON
     Cesium.GeoJsonDataSource.load('townsville_plot.geojson', {
       stroke: Cesium.Color.YELLOW,
       fill: Cesium.Color.YELLOW.withAlpha(0.5),
@@ -31,6 +34,8 @@
     }).then((dataSource) => {
       viewer.dataSources.add(dataSource);
       viewer.flyTo(dataSource);
+    }).otherwise((error) => {
+      console.error("Failed to load GeoJSON:", error);
     });
   </script>
 </body>
