@@ -19,6 +19,13 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhZWEzY2M2Ny0wYzU5LTRiZjAtOThhMy01MTIyZTAxMDE3YmUiLCJpZCI6MzA0NjQxLCJpYXQiOjE3NDc3OTgwMDd9._NobdQxSRzFj5effT6E3313JRd-C6fNa0ZjnZbj6nrM';
+
+const viewer = new Cesium.Viewer('cesiumContainer', {
+  terrainProvider: Cesium.createWorldTerrain(),
+  timeline: false,
+  animation: false
+});
     // ✅ Use EllipsoidTerrain to avoid needing token
     const viewer = new Cesium.Viewer('cesiumContainer', {
       terrainProvider: new Cesium.EllipsoidTerrainProvider(),
