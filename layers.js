@@ -10,11 +10,11 @@ const layers = [
         Cesium.Cartesian3.fromDegrees(141.145357408462, -5.17454240772974, 0)
       ]),
       height: 0,
-      extrudedHeight: 0,
+      extrudedHeight: 10,
       perPositionHeight: false,
-      material: Cesium.Color.RED.withAlpha(0.5),
+      material: Cesium.Color.GRAY.withAlpha(0.6),
       outline: true,
-      outlineColor: Cesium.Color.YELLOW
+      outlineColor: Cesium.Color.BLACK
     }
   },
   {
@@ -51,11 +51,11 @@ const layers = [
         Cesium.Cartesian3.fromDegrees(141.1516734233388, -5.168103756454066, 0)
       ]),
       height: 0,
-      extrudedHeight: 0,
+      extrudedHeight: 50,
       perPositionHeight: false,
-      material: Cesium.Color.RED.withAlpha(0.5),
+      material: Cesium.Color.ORANGE.withAlpha(0.6),
       outline: true,
-      outlineColor: Cesium.Color.YELLOW
+      outlineColor: Cesium.Color.BLACK
     }
   },
   {
@@ -116,11 +116,11 @@ const layers = [
         Cesium.Cartesian3.fromDegrees(141.1502246838922, -5.16443403271141, 0)
       ]),
       height: 0,
-      extrudedHeight: 0,
+      extrudedHeight: 40,
       perPositionHeight: false,
-      material: Cesium.Color.RED.withAlpha(0.5),
+      material: Cesium.Color.GOLD.withAlpha(0.6),
       outline: true,
-      outlineColor: Cesium.Color.YELLOW
+      outlineColor: Cesium.Color.BLACK
     }
   },
 ];
