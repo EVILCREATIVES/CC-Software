@@ -9,6 +9,9 @@ const layers = [
         Cesium.Cartesian3.fromDegrees(141.1452428354923, -5.159147601774397, 0),
         Cesium.Cartesian3.fromDegrees(141.145357408462, -5.17454240772974, 0)
       ]),
+      height: 0,
+      extrudedHeight: 0,
+      perPositionHeight: false,
       material: Cesium.Color.RED.withAlpha(0.5),
       outline: true,
       outlineColor: Cesium.Color.YELLOW
@@ -47,6 +50,9 @@ const layers = [
         Cesium.Cartesian3.fromDegrees(141.1511321166965, -5.16796260856781, 0),
         Cesium.Cartesian3.fromDegrees(141.1516734233388, -5.168103756454066, 0)
       ]),
+      height: 0,
+      extrudedHeight: 0,
+      perPositionHeight: false,
       material: Cesium.Color.RED.withAlpha(0.5),
       outline: true,
       outlineColor: Cesium.Color.YELLOW
@@ -109,6 +115,9 @@ const layers = [
         Cesium.Cartesian3.fromDegrees(141.1505160162424, -5.164207156647548, 0),
         Cesium.Cartesian3.fromDegrees(141.1502246838922, -5.16443403271141, 0)
       ]),
+      height: 0,
+      extrudedHeight: 0,
+      perPositionHeight: false,
       material: Cesium.Color.RED.withAlpha(0.5),
       outline: true,
       outlineColor: Cesium.Color.YELLOW
