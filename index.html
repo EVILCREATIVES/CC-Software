@@ -3,9 +3,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Townsville Copper-Gold 3D Map</title>
+  <title>3D Drill Map – Townsville Copper-Gold</title>
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Cesium.js"></script>
-  <script src="drill_traces.js"></script>
+  <script src="boreholes.js"></script>
+  <script src="layers.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
   <style>
     html, body, #cesiumContainer {
@@ -13,8 +14,8 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden;
       font-family: sans-serif;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -23,37 +24,36 @@
   <script>
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhZWEzY2M2Ny0wYzU5LTRiZjAtOThhMy01MTIyZTAxMDE3YmUiLCJpZCI6MzA0NjQxLCJpYXQiOjE3NDc3OTgwMDd9._NobdQxSRzFj5effT6E3313JRd-C6fNa0ZjnZbj6nrM';
 
-    async function initCesium() {
+    async function init() {
       const terrain = await Cesium.CesiumTerrainProvider.fromIonAssetId(1);
 
       const viewer = new Cesium.Viewer('cesiumContainer', {
         terrainProvider: terrain,
         timeline: false,
-        animation: false
+        animation: false,
+        infoBox: false,
+        selectionIndicator: false
       });
 
-      // Allow camera to go below ground
       viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
 
-      // Load GeoJSON overlay (optional)
-      Cesium.GeoJsonDataSource.load('townsville_plot.geojson', {
-        stroke: Cesium.Color.YELLOW,
-        fill: Cesium.Color.YELLOW.withAlpha(0.5),
-        strokeWidth: 3
-      }).then((dataSource) => {
-        viewer.dataSources.add(dataSource);
-        viewer.flyTo(dataSource);
-      }).catch((error) => {
-        console.error("🚨 Failed to load GeoJSON:", error);
+      // Add boreholes
+      boreholes.forEach((bh) => {
+        viewer.entities.add(bh);
       });
 
-      // Load drill traces
-      drillTraces.forEach((trace) => {
-        viewer.entities.add(trace);
+      // Add polygons
+      layers.forEach((layer) => {
+        viewer.entities.add({
+          name: layer.name,
+          polygon: layer.polygon
+        });
       });
+
+      viewer.zoomTo(viewer.entities);
     }
 
-    initCesium();
+    init();
   </script>
 </body>
 </html>
