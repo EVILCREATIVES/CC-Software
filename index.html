@@ -19,27 +19,30 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-    // ✅ Your Cesium Ion access token
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhZWEzY2M2Ny0wYzU5LTRiZjAtOThhMy01MTIyZTAxMDE3YmUiLCJpZCI6MzA0NjQxLCJpYXQiOjE3NDc3OTgwMDd9._NobdQxSRzFj5effT6E3313JRd-C6fNa0ZjnZbj6nrM';
 
-    // ✅ Create the Cesium viewer with World Terrain
-    const viewer = new Cesium.Viewer('cesiumContainer', {
-      terrainProvider: Cesium.createWorldTerrain(),
-      timeline: false,
-      animation: false
-    });
+    async function initCesium() {
+      const terrain = await Cesium.CesiumTerrainProvider.fromIonAssetId(1);
 
-    // ✅ Load your GeoJSON polygon overlay
-    Cesium.GeoJsonDataSource.load('townsville_plot.geojson', {
-      stroke: Cesium.Color.YELLOW,
-      fill: Cesium.Color.YELLOW.withAlpha(0.5),
-      strokeWidth: 3
-    }).then((dataSource) => {
-      viewer.dataSources.add(dataSource);
-      viewer.flyTo(dataSource);
-    }).otherwise((error) => {
-      console.error("Failed to load GeoJSON:", error);
-    });
+      const viewer = new Cesium.Viewer('cesiumContainer', {
+        terrainProvider: terrain,
+        timeline: false,
+        animation: false
+      });
+
+      Cesium.GeoJsonDataSource.load('townsville_plot.geojson', {
+        stroke: Cesium.Color.YELLOW,
+        fill: Cesium.Color.YELLOW.withAlpha(0.5),
+        strokeWidth: 3
+      }).then((dataSource) => {
+        viewer.dataSources.add(dataSource);
+        viewer.flyTo(dataSource);
+      }).otherwise((error) => {
+        console.error("Failed to load GeoJSON:", error);
+      });
+    }
+
+    initCesium();
   </script>
 </body>
 </html>
