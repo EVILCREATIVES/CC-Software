@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Cesium KMZ Viewer</title>
+  <title>KMZ Viewer</title>
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.117/Build/Cesium/Cesium.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.117/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
@@ -12,22 +12,18 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-    // Initialize Cesium Viewer
     const viewer = new Cesium.Viewer('cesiumContainer', {
       terrainProvider: Cesium.createWorldTerrain()
     });
 
-    // Load KMZ file (hosted URL)
-    const kmzUrl = 'https://evilcreatives.github.io/CC-Software/testkmz.kmz'; // Replace this
-
-    // Convert and load the KMZ
-    Cesium.KmlDataSource.load(kmzUrl, {
+    Cesium.KmlDataSource.load('./testkmz_clean.kmz', {
       camera: viewer.scene.camera,
-      canvas: viewer.scene.canvas
+      canvas: viewer.scene.canvas,
+      clampToGround: false
     }).then(function(dataSource) {
       viewer.dataSources.add(dataSource);
       viewer.flyTo(dataSource);
-    }).otherwise(function(error){
+    }).otherwise(function(error) {
       console.error("Failed to load KMZ:", error);
     });
   </script>
