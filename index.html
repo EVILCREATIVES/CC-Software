@@ -18,27 +18,23 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-    // Your Cesium ion access token
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlNmMyZmEzNS1hNzEwLTQyNmQtYTQ1OS1iY2UyOTkxZjM5ZjIiLCJpZCI6MzA0NjQxLCJpYXQiOjE3NDc3OTc5MDh9.fKtH-1dOtQGobPtnCxj2wC9rcBDawN43pv4xpEDMfa4';
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+      terrainProvider: Cesium.createWorldTerrain()
+    });
 
-    // Create the Cesium viewer with terrain
-const viewer = new Cesium.Viewer('cesiumContainer', {
-  shouldAnimate: true,
-  terrainProvider: Cesium.createWorldTerrain() // use `createWorldTerrain()` for compatibility
-});
-    
-    // Load your KMZ file from the same GitHub repo
+    // Disable depth testing so underground geometry is visible
+    viewer.scene.globe.depthTestAgainstTerrain = false;
+
+    // Load KMZ
     Cesium.KmlDataSource.load('./testkmz_clean.kmz', {
       camera: viewer.scene.camera,
       canvas: viewer.scene.canvas,
-clampToGround: false, // keep this
-sourceUri: './testkmz_clean.kmz' // ensures proper path resolution
+      clampToGround: false
     }).then(function(dataSource) {
       viewer.dataSources.add(dataSource);
       viewer.flyTo(dataSource);
     }).catch(function(error) {
       console.error("Failed to load KMZ:", error);
-      alert("Failed to load KMZ: " + error.message);
     });
   </script>
 </body>
