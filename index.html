@@ -1,95 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>3D Exploration Map – Toggle Layers</title>
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Cesium.js"></script>
-  <script src="boreholes.js"></script>
-  <script src="layers_extruded_colored.js"></script>
-  <link href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Cesium KMZ Viewer</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.117/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.117/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
-    html, body, #cesiumContainer {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
-    #layerMenu {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 10px;
-      border-radius: 6px;
-      z-index: 99;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    #layerMenu label {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 13px;
-    }
+    html, body, #cesiumContainer { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; }
   </style>
 </head>
 <body>
   <div id="cesiumContainer"></div>
-  <div id="layerMenu">
-    <strong>Toggle Layers</strong>
-    <div id="toggleList"></div>
-  </div>
   <script>
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhZWEzY2M2Ny0wYzU5LTRiZjAtOThhMy01MTIyZTAxMDE3YmUiLCJpZCI6MzA0NjQxLCJpYXQiOjE3NDc3OTgwMDd9._NobdQxSRzFj5effT6E3313JRd-C6fNa0ZjnZbj6nrM';
+    // Initialize Cesium Viewer
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+      terrainProvider: Cesium.createWorldTerrain()
+    });
 
-    async function init() {
-      const terrain = await Cesium.CesiumTerrainProvider.fromIonAssetId(1);
+    // Load KMZ file (hosted URL)
+    const kmzUrl = 'https://EVILCREATIVES.github.io/CC-Software/updated.kmz'; // Replace this
 
-      const viewer = new Cesium.Viewer('cesiumContainer', {
-        terrainProvider: terrain,
-        timeline: false,
-        animation: false,
-        infoBox: false,
-        selectionIndicator: false
-      });
-
-      viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
-
-      // Add boreholes
-      boreholes.forEach((bh) => viewer.entities.add(bh));
-
-      // Add layers with toggle
-      const toggleList = document.getElementById("toggleList");
-      const layerEntities = [];
-
-      layers.forEach((layer, idx) => {
-        const entity = viewer.entities.add({
-          name: layer.name,
-          polygon: layer.polygon,
-          show: true
-        });
-        layerEntities.push(entity);
-
-        const id = "layer_" + idx;
-        const label = document.createElement("label");
-        label.innerHTML = `
-          <input type="checkbox" id="${id}" checked>
-          ${layer.name}
-        `;
-        toggleList.appendChild(label);
-
-        document.getElementById(id).addEventListener("change", (e) => {
-          entity.show = e.target.checked;
-        });
-      });
-
-      viewer.zoomTo(viewer.entities);
-    }
-
-    init();
+    // Convert and load the KMZ
+    Cesium.KmlDataSource.load(kmzUrl, {
+      camera: viewer.scene.camera,
+      canvas: viewer.scene.canvas
+    }).then(function(dataSource) {
+      viewer.dataSources.add(dataSource);
+      viewer.flyTo(dataSource);
+    }).otherwise(function(error){
+      console.error("Failed to load KMZ:", error);
+    });
   </script>
 </body>
 </html>
