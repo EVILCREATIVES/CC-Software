@@ -28,6 +28,7 @@ const viewer = new Cesium.Viewer('cesiumContainer', {
 });
   // 👇 ADD THIS LINE RIGHT AFTER viewer CREATION
   viewer.scene.globe.depthTestAgainstTerrain = false;
+    
     // Load your KMZ file from the same GitHub repo
     Cesium.KmlDataSource.load('./testkmz_clean.kmz', {
       camera: viewer.scene.camera,
