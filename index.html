@@ -6,16 +6,27 @@
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.117/Build/Cesium/Cesium.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.117/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
-    html, body, #cesiumContainer { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; }
+    html, body, #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
   <div id="cesiumContainer"></div>
   <script>
+    // Your Cesium ion access token
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlNmMyZmEzNS1hNzEwLTQyNmQtYTQ1OS1iY2UyOTkxZjM5ZjIiLCJpZCI6MzA0NjQxLCJpYXQiOjE3NDc3OTc5MDh9.fKtH-1dOtQGobPtnCxj2wC9rcBDawN43pv4xpEDMfa4';
+
+    // Create the Cesium viewer with terrain
     const viewer = new Cesium.Viewer('cesiumContainer', {
       terrain: Cesium.Terrain.fromWorldTerrain()
     });
 
+    // Load your KMZ file from the same GitHub repo
     Cesium.KmlDataSource.load('./testkmz_clean.kmz', {
       camera: viewer.scene.camera,
       canvas: viewer.scene.canvas,
@@ -23,8 +34,9 @@
     }).then(function(dataSource) {
       viewer.dataSources.add(dataSource);
       viewer.flyTo(dataSource);
-    }).otherwise(function(error) {
+    }).catch(function(error) {
       console.error("Failed to load KMZ:", error);
+      alert("Failed to load KMZ: " + error.message);
     });
   </script>
 </body>
