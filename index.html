@@ -22,15 +22,17 @@
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlNmMyZmEzNS1hNzEwLTQyNmQtYTQ1OS1iY2UyOTkxZjM5ZjIiLCJpZCI6MzA0NjQxLCJpYXQiOjE3NDc3OTc5MDh9.fKtH-1dOtQGobPtnCxj2wC9rcBDawN43pv4xpEDMfa4';
 
     // Create the Cesium viewer with terrain
-    const viewer = new Cesium.Viewer('cesiumContainer', {
-      terrain: Cesium.Terrain.fromWorldTerrain()
-    });
+const viewer = new Cesium.Viewer('cesiumContainer', {
+  shouldAnimate: true,
+  terrainProvider: Cesium.createWorldTerrain() // use `createWorldTerrain()` for compatibility
+});
 
     // Load your KMZ file from the same GitHub repo
     Cesium.KmlDataSource.load('./testkmz_clean.kmz', {
       camera: viewer.scene.camera,
       canvas: viewer.scene.canvas,
-      clampToGround: false
+clampToGround: false, // keep this
+sourceUri: './testkmz_clean.kmz' // ensures proper path resolution
     }).then(function(dataSource) {
       viewer.dataSources.add(dataSource);
       viewer.flyTo(dataSource);
